@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -27,32 +28,9 @@ public class ConfigDish extends ActionBarActivity
 
     }
 
-    public class DishAdapter implements ListAdapter
+    public class DishAdapter extends BaseAdapter
     {
 
-        @Override
-        public boolean areAllItemsEnabled()
-        {
-            return false;
-        }
-
-        @Override
-        public boolean isEnabled(int position)
-        {
-            return false;
-        }
-
-        @Override
-        public void registerDataSetObserver(DataSetObserver observer)
-        {
-
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer)
-        {
-
-        }
 
         @Override
         public int getCount()
@@ -73,33 +51,9 @@ public class ConfigDish extends ActionBarActivity
         }
 
         @Override
-        public boolean hasStableIds()
-        {
-            return false;
-        }
-
-        @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
             return null;
-        }
-
-        @Override
-        public int getItemViewType(int position)
-        {
-            return 0;
-        }
-
-        @Override
-        public int getViewTypeCount()
-        {
-            return 0;
-        }
-
-        @Override
-        public boolean isEmpty()
-        {
-            return false;
         }
     }
 }
