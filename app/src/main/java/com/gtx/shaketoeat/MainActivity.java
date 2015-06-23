@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
                 String name = pickToEat();
                 //摇动手机后，设置button上显示的字为空
-                clear.setText(name);
+                //clear.setText(name);
 
                 //摇动手机后，再伴随震动提示~~
                 vibrator.vibrate(500);
