@@ -3,6 +3,8 @@ package com.gtx.shaketoeat;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.gtx.model.Canteen;
+import com.gtx.model.Constant;
 import com.gtx.model.RandomPick;
 
 
@@ -63,31 +66,6 @@ public class MainActivity extends Activity implements SensorEventListener
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onSensorChanged(SensorEvent event)
     {
         // TODO Auto-generated method stub
@@ -129,4 +107,21 @@ public class MainActivity extends Activity implements SensorEventListener
         Canteen c = rp.pickCanteen();
         return c.getName();
     }
+
+    private void firstRun()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences(Constant.SHAKETOEAT, MODE_PRIVATE);
+
+        boolean isfirstrun = sharedPreferences.getBoolean(Constant.ISFIRST, false);
+        if(!isfirstrun)
+        {
+            SQLiteDatabase sqLiteDatabase = this.openOrCreateDatabase(Constant.SHAKETOEAT, MODE_PRIVATE,null);
+            sqLiteDatabase.execSQL(Constant.CREATE_TABLE);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(Constant.ISFIRST, true);
+            editor.commit();
+        }
+    }
+
 }
