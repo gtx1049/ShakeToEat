@@ -8,5 +8,6 @@ public class Constant
     public final static String SHAKETOEAT = "shaketoeat";
     public final static String ISFIRST = "isfirst";
 
-    public final static String CREATE_TABLE = "create table stoe(canteen varchar(255), dish varchar(255))";
+    public final static String CREATE_CANTEEN_TABLE = "create table canteen(canteen_id INTEGER PRIMARY KEY AUTOINCREMENT, canteen varchar)";
+    public final static String CREATE_DISH_TABLE = "create table dish(canteen_id integer, dish varchar(255))";
 }

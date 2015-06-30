@@ -51,6 +51,8 @@ public class MainActivity extends Activity implements SensorEventListener
                 startActivityForResult(intent, 0);
             }
         });
+
+        firstRun();
     }
 
     @Override
@@ -110,12 +112,13 @@ public class MainActivity extends Activity implements SensorEventListener
 
     private void firstRun()
     {
+        SQLiteDatabase sqLiteDatabase = this.openOrCreateDatabase(Constant.SHAKETOEAT, MODE_PRIVATE,null);
         SharedPreferences sharedPreferences = getSharedPreferences(Constant.SHAKETOEAT, MODE_PRIVATE);
 
         boolean isfirstrun = sharedPreferences.getBoolean(Constant.ISFIRST, false);
         if(!isfirstrun)
         {
-            SQLiteDatabase sqLiteDatabase = this.openOrCreateDatabase(Constant.SHAKETOEAT, MODE_PRIVATE,null);
+
             sqLiteDatabase.execSQL(Constant.CREATE_TABLE);
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
