@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -15,6 +16,7 @@ import android.widget.ListView;
 public class Config extends ActionBarActivity
 {
     private ListView canteenlsit;
+    private Button canteenbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,6 +26,15 @@ public class Config extends ActionBarActivity
 
         canteenlsit = (ListView)findViewById(R.id.canteenlist);
         canteenlsit.setAdapter(new CanteenAdapter());
+
+        canteenbutton = (Button)findViewById(R.id.add_canteen);
+
+        canteenbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public class CanteenAdapter extends BaseAdapter

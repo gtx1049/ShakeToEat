@@ -12,5 +12,11 @@
         android:id="@+id/dishlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="添加...菜"
+        android:id="@+id/add_dish"/>
 
 </RelativeLayout>

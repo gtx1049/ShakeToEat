@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -16,6 +17,7 @@ public class ConfigDish extends ActionBarActivity
 {
 
     private ListView dishlist;
+    private Button dishbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -26,6 +28,13 @@ public class ConfigDish extends ActionBarActivity
         dishlist = (ListView)findViewById(R.id.dishlist);
         dishlist.setAdapter(new DishAdapter());
 
+        dishbutton = (Button)findViewById(R.id.add_dish);
+        dishbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public class DishAdapter extends BaseAdapter
