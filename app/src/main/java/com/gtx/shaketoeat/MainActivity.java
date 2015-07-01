@@ -119,7 +119,8 @@ public class MainActivity extends Activity implements SensorEventListener
         if(!isfirstrun)
         {
 
-            sqLiteDatabase.execSQL(Constant.CREATE_TABLE);
+            sqLiteDatabase.execSQL(Constant.CREATE_CANTEEN_TABLE);
+            sqLiteDatabase.execSQL(Constant.CREATE_DISH_TABLE);
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(Constant.ISFIRST, true);
