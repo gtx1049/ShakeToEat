@@ -1,5 +1,7 @@
 package com.gtx.shaketoeat;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class Config extends ActionBarActivity
@@ -32,7 +36,16 @@ public class Config extends ActionBarActivity
         canteenbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new AlertDialog.Builder(Config.this).setTitle("Please Input :").setIcon(
+                        android.R.drawable.ic_dialog_info).setView(
+                        new EditText(Config.this)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int which) {
+                        // TODO Auto-generated method stub
 
+                    }
+                })
+                .setNegativeButton("Cancel", null).show();
             }
         });
     }
