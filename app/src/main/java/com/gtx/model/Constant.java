@@ -10,4 +10,11 @@ public class Constant
 
     public final static String CREATE_CANTEEN_TABLE = "create table canteen(canteen_id INTEGER PRIMARY KEY AUTOINCREMENT, canteen varchar)";
     public final static String CREATE_DISH_TABLE = "create table dish(canteen_id integer, dish varchar(255))";
+
+    public final static String DB_CANTEEN = "canteen";
+    public final static String TABLE_CANTEEN = "canteen";
+
+    public final static String DB_CANTEEN_ID = "canteen_id";
+    public final static String DB_DISH = "dish";
+    public final static String TABLE_DISH = "dish";
 }

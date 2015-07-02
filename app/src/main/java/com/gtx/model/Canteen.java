@@ -28,4 +28,9 @@ public class Canteen
     {
         return weight;
     }
+
+    static public void insertCanteen(String canteenname)
+    {
+
+    }
 }

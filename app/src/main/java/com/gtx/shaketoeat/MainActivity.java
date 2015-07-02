@@ -19,6 +19,7 @@ import android.widget.Button;
 
 import com.gtx.model.Canteen;
 import com.gtx.model.Constant;
+import com.gtx.model.Database;
 import com.gtx.model.RandomPick;
 
 
@@ -126,6 +127,8 @@ public class MainActivity extends Activity implements SensorEventListener
             editor.putBoolean(Constant.ISFIRST, true);
             editor.commit();
         }
+
+        Database.getInstance(this);
     }
 
 }

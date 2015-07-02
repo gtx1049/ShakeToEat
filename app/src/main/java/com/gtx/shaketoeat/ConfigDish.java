@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.gtx.model.Database;
+
 
 public class ConfigDish extends ActionBarActivity
 {
@@ -35,13 +37,15 @@ public class ConfigDish extends ActionBarActivity
         dishbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final EditText editText = new EditText(ConfigDish.this);
                 new AlertDialog.Builder(ConfigDish.this).setTitle("Please Input :").setIcon(
                         android.R.drawable.ic_dialog_info).setView(
-                        new EditText(ConfigDish.this)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        editText).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog,int which) {
                         // TODO Auto-generated method stub
-
+                        String canteenname = editText.getText().toString();
+                        Database.getInstance().insertCanteen(canteenname);
                     }
                 })
                         .setNegativeButton("Cancel", null).show();
