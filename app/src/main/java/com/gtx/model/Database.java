@@ -2,6 +2,7 @@ package com.gtx.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -11,6 +12,7 @@ public class Database
 {
     private static Database instance = null;
 
+    private String SELECT_ID = "select canteen_id from canteen where canteen = ";
     private SQLiteDatabase sqLiteDatabase;
 
     private Database(Context context)
@@ -49,5 +51,17 @@ public class Database
         values.put(Constant.DB_DISH, dishname);
 
         sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
+    }
+
+    public int getCanteenId(String canteenname)
+    {
+        int ret = 0;
+
+        String query = SELECT_ID + "'" + canteenname + "'";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        ret = cursor.getInt(cursor.getColumnIndex(Constant.DB_CANTEEN_ID));
+
+        return ret;
     }
 }
