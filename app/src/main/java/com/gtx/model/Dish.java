@@ -5,4 +5,12 @@ package com.gtx.model;
  */
 public class Dish
 {
+    private String dishname;
+    private int weight;
+
+    public Dish(String dishname, int weight)
+    {
+        this.dishname = dishname;
+        this.weight = weight;
+    }
 }

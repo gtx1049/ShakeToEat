@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/7/2.
  */
@@ -63,5 +65,10 @@ public class Database
         ret = cursor.getInt(cursor.getColumnIndex(Constant.DB_CANTEEN_ID));
 
         return ret;
+    }
+
+    public List<Canteen> getCanteens()
+    {
+        return null;
     }
 }

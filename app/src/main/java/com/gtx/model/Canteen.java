@@ -1,5 +1,8 @@
 package com.gtx.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/4/27.
  */
@@ -13,10 +16,13 @@ public class Canteen
     private String name;
     private int weight;
 
+    private List<Dish> dishs;
+
     public Canteen(String name, int weight)
     {
         this.name = name;
         this.weight = weight;
+        dishs = new ArrayList<Dish>();
     }
 
     public String getName()
