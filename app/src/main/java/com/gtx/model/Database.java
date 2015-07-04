@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class Database
     private static Database instance = null;
 
     private String SELECT_ID = "select canteen_id from canteen where canteen = ";
+    private String SELECT_ALL = "select * from " + Constant.DB_CANTEEN;
     private SQLiteDatabase sqLiteDatabase;
 
     private Database(Context context)
@@ -69,6 +71,16 @@ public class Database
 
     public List<Canteen> getCanteens()
     {
-        return null;
+        List<Canteen> lists = new ArrayList<Canteen>();
+        String query = SELECT_ALL;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (cursor.moveToNext())
+        {
+            String canteenname = cursor.getString(cursor.getColumnIndex(Constant.DB_CANTEEN));
+            Canteen canteen = new Canteen(canteenname, 0);
+            lists.add(canteen);
+        }
+        return lists;
     }
 }
