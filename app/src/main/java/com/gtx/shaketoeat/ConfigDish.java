@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.gtx.model.Constant;
 import com.gtx.model.Database;
 
 
@@ -30,13 +31,18 @@ public class ConfigDish extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_dish);
 
+        String canteenname = getIntent().getStringExtra(Constant.DB_CANTEEN);
+        
+
         dishlist = (ListView)findViewById(R.id.dishlist);
         dishlist.setAdapter(new DishAdapter());
 
         dishbutton = (Button)findViewById(R.id.add_dish);
-        dishbutton.setOnClickListener(new View.OnClickListener() {
+        dishbutton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 final EditText editText = new EditText(ConfigDish.this);
                 new AlertDialog.Builder(ConfigDish.this).setTitle("Please Input :").setIcon(
                         android.R.drawable.ic_dialog_info).setView(

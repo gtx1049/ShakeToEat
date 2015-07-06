@@ -17,6 +17,7 @@ public class Database
 
     private String SELECT_ID = "select canteen_id from canteen where canteen = ";
     private String SELECT_ALL = "select * from " + Constant.DB_CANTEEN;
+    private String SELECT_ALL_DISH = "select * from " + Constant.DB_DISH;
     private SQLiteDatabase sqLiteDatabase;
 
     private Database(Context context)
@@ -38,13 +39,15 @@ public class Database
         return instance;
     }
 
-    public void insertCanteen(String canteenname)
+    public Canteen insertCanteen(String canteenname)
     {
         ContentValues values = new ContentValues();
 
         values.put(Constant.DB_CANTEEN, canteenname);
 
         sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
+
+        return new Canteen(canteenname, 0);
     }
 
     public void insertDish(int id, String dishname)
@@ -82,5 +85,21 @@ public class Database
             lists.add(canteen);
         }
         return lists;
+    }
+    public List<Dish> getDishes(String canteenname)
+    {
+        int id = getCanteenId(canteenname);
+        String query = SELECT_ALL_DISH + " where canteen_id = " + id;
+        List<Dish> list = new ArrayList<Dish>();
+
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (cursor.moveToNext())
+        {
+            String dishname = cursor.getString(cursor.getColumnIndex(Constant.DB_DISH));
+            Dish dish = new Dish(id, dishname, 0);
+            list.add(dish);
+        }
+        return list;
     }
 }
