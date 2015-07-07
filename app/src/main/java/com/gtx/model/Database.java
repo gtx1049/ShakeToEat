@@ -39,23 +39,25 @@ public class Database
         return instance;
     }
 
-    public Canteen insertCanteen(String canteenname)
+    public Canteen insertCanteen(String canteenname, int weight)
     {
         ContentValues values = new ContentValues();
 
         values.put(Constant.DB_CANTEEN, canteenname);
+        values.put(Constant.DB_CANTEEN_WEIGHT, weight);
 
         sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
 
         return new Canteen(canteenname, 0);
     }
 
-    public void insertDish(int id, String dishname)
+    public void insertDish(int id, String dishname, int weight)
     {
         ContentValues values = new ContentValues();
 
         values.put(Constant.DB_CANTEEN_ID, id);
         values.put(Constant.DB_DISH, dishname);
+        values.put(Constant.DB_DISH_WEIGHT, weight);
 
         sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
     }

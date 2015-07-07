@@ -1,6 +1,7 @@
 package com.gtx.shaketoeat;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,8 @@ public class Config extends ActionBarActivity
     private List<Canteen> canteenList;
     private CanteenAdapter canteenAdapter;
 
+    private AddDialog adddialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -48,23 +52,34 @@ public class Config extends ActionBarActivity
 
         canteenbutton = (Button)findViewById(R.id.add_canteen);
 
-        final EditText editText = new EditText(Config.this);
-        canteenbutton.setOnClickListener(new View.OnClickListener() {
+        adddialog = new AddDialog(Config.this);
+        adddialog.setOnPositiveListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(Config.this).setTitle("Please Input :").setView(editText)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v)
+            {
+                EditText editText = adddialog.getEditText();
+                String name = editText.getText().toString();
+                RadioGroup radioGroup = adddialog.getRadioGroup();
+                int id = radioGroup.getCheckedRadioButtonId();
+                Database.getInstance().insertCanteen(name, id);
+            }
+        });
+        adddialog.setOnNegativeListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adddialog.dismiss();
+            }
+        });
 
-                        // TODO Auto-generated method stub
-                        String canteenname = editText.getText().toString();
-                        Canteen canteen = Database.getInstance().insertCanteen(canteenname);
-                        canteenList.add(canteen);
-                        canteenAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Cancel", null).show();
+        canteenbutton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adddialog.show();
             }
         });
     }
@@ -96,18 +111,27 @@ public class Config extends ActionBarActivity
             TextView tv = (TextView)convertView.findViewById(R.id.canteen_name);
             tv.setText(canteenList.get(position).getName());
 
-            convertView.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Intent intent = new Intent(Config.this, ConfigDish.class);
-                    intent.putExtra(Constant.DB_CANTEEN, canteenList.get(position).getName());
-                    startActivity(intent);
-                }
-            });
+            convertView.setOnClickListener(new ViewClickListener(position));
 
             return convertView;
+        }
+    }
+
+    public class ViewClickListener implements View.OnClickListener
+    {
+        private int tmpposition;
+
+        public ViewClickListener(int position)
+        {
+            tmpposition = position;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Intent intent = new Intent(Config.this, ConfigDish.class);
+            intent.putExtra(Constant.DB_CANTEEN, canteenList.get(tmpposition).getName());
+            startActivity(intent);
         }
     }
 }

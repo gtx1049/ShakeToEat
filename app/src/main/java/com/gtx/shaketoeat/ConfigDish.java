@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 
 import com.gtx.model.Constant;
 import com.gtx.model.Database;
@@ -25,17 +26,45 @@ public class ConfigDish extends ActionBarActivity
     private ListView dishlist;
     private Button dishbutton;
 
+    private AddDialog adddialog;
+
+    private String canteenname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config_dish);
 
-        String canteenname = getIntent().getStringExtra(Constant.DB_CANTEEN);
+        canteenname = getIntent().getStringExtra(Constant.DB_CANTEEN);
         
 
         dishlist = (ListView)findViewById(R.id.dishlist);
         dishlist.setAdapter(new DishAdapter());
+
+        adddialog = new AddDialog(ConfigDish.this);
+        adddialog.setOnPositiveListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                EditText editText = adddialog.getEditText();
+                String name = editText.getText().toString();
+                RadioGroup radioGroup = adddialog.getRadioGroup();
+                int id = radioGroup.getCheckedRadioButtonId();
+
+                int canteenid = Database.getInstance().getCanteenId(canteenname);
+                Database.getInstance().insertDish(canteenid, name, id);
+            }
+        });
+        adddialog.setOnNegativeListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adddialog.dismiss();
+            }
+        });
 
         dishbutton = (Button)findViewById(R.id.add_dish);
         dishbutton.setOnClickListener(new View.OnClickListener()
@@ -43,18 +72,7 @@ public class ConfigDish extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
-                final EditText editText = new EditText(ConfigDish.this);
-                new AlertDialog.Builder(ConfigDish.this).setTitle("Please Input :").setIcon(
-                        android.R.drawable.ic_dialog_info).setView(
-                        editText).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,int which) {
-                        // TODO Auto-generated method stub
-                        String canteenname = editText.getText().toString();
-                        Database.getInstance().insertCanteen(canteenname);
-                    }
-                })
-                        .setNegativeButton("Cancel", null).show();
+                adddialog.show();
             }
         });
     }
