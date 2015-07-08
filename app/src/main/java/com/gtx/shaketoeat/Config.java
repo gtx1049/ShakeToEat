@@ -62,7 +62,9 @@ public class Config extends ActionBarActivity
                 String name = editText.getText().toString();
                 RadioGroup radioGroup = adddialog.getRadioGroup();
                 int id = radioGroup.getCheckedRadioButtonId();
-                Database.getInstance().insertCanteen(name, id);
+                canteenList.add(Database.getInstance().insertCanteen(name, id));
+                adddialog.dismiss();
+                canteenAdapter.notifyDataSetChanged();
             }
         });
         adddialog.setOnNegativeListener(new View.OnClickListener()
@@ -89,7 +91,7 @@ public class Config extends ActionBarActivity
         @Override
         public int getCount()
         {
-            return 0;
+            return canteenList.size();
         }
 
         @Override

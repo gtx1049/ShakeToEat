@@ -48,10 +48,10 @@ public class Database
 
         sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
 
-        return new Canteen(canteenname, 0);
+        return new Canteen(canteenname, weight);
     }
 
-    public void insertDish(int id, String dishname, int weight)
+    public Dish insertDish(int id, String dishname, int weight)
     {
         ContentValues values = new ContentValues();
 
@@ -59,7 +59,9 @@ public class Database
         values.put(Constant.DB_DISH, dishname);
         values.put(Constant.DB_DISH_WEIGHT, weight);
 
-        sqLiteDatabase.insert(Constant.TABLE_CANTEEN, null, values);
+        sqLiteDatabase.insert(Constant.TABLE_DISH, null, values);
+
+        return new Dish(id, dishname, weight);
     }
 
     public int getCanteenId(String canteenname)
@@ -79,12 +81,14 @@ public class Database
         List<Canteen> lists = new ArrayList<Canteen>();
         String query = SELECT_ALL;
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        cursor.moveToFirst();
-        while (cursor.moveToNext())
+        if(cursor.moveToFirst())
         {
-            String canteenname = cursor.getString(cursor.getColumnIndex(Constant.DB_CANTEEN));
-            Canteen canteen = new Canteen(canteenname, 0);
-            lists.add(canteen);
+            do
+            {
+                String canteenname = cursor.getString(cursor.getColumnIndex(Constant.DB_CANTEEN));
+                Canteen canteen = new Canteen(canteenname, 0);
+                lists.add(canteen);
+            }while (cursor.moveToNext());
         }
         return lists;
     }
@@ -95,12 +99,13 @@ public class Database
         List<Dish> list = new ArrayList<Dish>();
 
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        cursor.moveToFirst();
-        while (cursor.moveToNext())
+        if(cursor.moveToFirst())
         {
-            String dishname = cursor.getString(cursor.getColumnIndex(Constant.DB_DISH));
-            Dish dish = new Dish(id, dishname, 0);
-            list.add(dish);
+            do {
+                String dishname = cursor.getString(cursor.getColumnIndex(Constant.DB_DISH));
+                Dish dish = new Dish(id, dishname, 0);
+                list.add(dish);
+            } while (cursor.moveToNext());
         }
         return list;
     }

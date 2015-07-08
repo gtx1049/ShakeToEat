@@ -13,4 +13,9 @@ public class Dish
         this.dishname = dishname;
         this.weight = weight;
     }
+
+    public String getDishname()
+    {
+        return dishname;
+    }
 }

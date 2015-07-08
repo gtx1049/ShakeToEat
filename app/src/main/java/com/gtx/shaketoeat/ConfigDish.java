@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +16,14 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.gtx.model.Constant;
 import com.gtx.model.Database;
+import com.gtx.model.Dish;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConfigDish extends ActionBarActivity
@@ -30,6 +36,9 @@ public class ConfigDish extends ActionBarActivity
 
     private String canteenname;
 
+    private List<Dish> dishdata;
+    private DishAdapter dishAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,10 +46,12 @@ public class ConfigDish extends ActionBarActivity
         setContentView(R.layout.activity_config_dish);
 
         canteenname = getIntent().getStringExtra(Constant.DB_CANTEEN);
-        
+
+        dishdata = Database.getInstance().getDishes(canteenname);
 
         dishlist = (ListView)findViewById(R.id.dishlist);
-        dishlist.setAdapter(new DishAdapter());
+        dishAdapter = new DishAdapter();
+        dishlist.setAdapter(dishAdapter);
 
         adddialog = new AddDialog(ConfigDish.this);
         adddialog.setOnPositiveListener(new View.OnClickListener()
@@ -54,7 +65,10 @@ public class ConfigDish extends ActionBarActivity
                 int id = radioGroup.getCheckedRadioButtonId();
 
                 int canteenid = Database.getInstance().getCanteenId(canteenname);
-                Database.getInstance().insertDish(canteenid, name, id);
+                dishdata.add(Database.getInstance().insertDish(canteenid, name, id));
+
+                dishAdapter.notifyDataSetChanged();
+                adddialog.dismiss();
             }
         });
         adddialog.setOnNegativeListener(new View.OnClickListener()
@@ -84,7 +98,7 @@ public class ConfigDish extends ActionBarActivity
         @Override
         public int getCount()
         {
-            return 0;
+            return dishdata.size();
         }
 
         @Override
@@ -102,7 +116,11 @@ public class ConfigDish extends ActionBarActivity
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            return null;
+            convertView = LayoutInflater.from(ConfigDish.this).inflate(R.layout.canteen_item, null);
+            TextView tv = (TextView)convertView.findViewById(R.id.canteen_name);
+            tv.setText(dishdata.get(position).getDishname());
+
+            return convertView;
         }
     }
 }
